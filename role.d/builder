@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+#  Configure the new image to be suitable for compiling Debian packages within
+#
+# Steve
+# --
+# http://www.steve.org.uk/
+#
+
+
+prefix=$1
+
+
+
+#
+#  Source our common functions - this will let us install a Debian package.
+#
+if [ -e /usr/share/xen-tools/common.sh ]; then
+    . /usr/share/xen-tools/common.sh
+else
+    echo "Installation problem"
+fi
+
+
+
+
+
+#
+#  Update APT lists.
+#
+chroot ${prefix} /usr/bin/apt-get update
+
+
+#
+#  Install the packages
+#
+installDebianPackage ${prefix} dpkg-dev
+installDebianPackage ${prefix} devscripts
+installDebianPackage ${prefix} fakeroot
+installDebianPackage ${prefix} debhelper
+installDebianPackage ${prefix} build-essential
+installDebianPackage ${prefix} lintian
+installDebianPackage ${prefix} linda

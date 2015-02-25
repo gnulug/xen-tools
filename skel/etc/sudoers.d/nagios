@@ -1,0 +1,5 @@
+# Do not require tty for user nagios (will fail otherwise)
+Defaults:nagios !requiretty
+
+# Allow user nagios to run nagios scripts as root
+nagios  ALL=(root) NOPASSWD:/usr/local/nagios/libexec/*, /usr/lib/nagios/plugins/*

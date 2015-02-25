@@ -1,0 +1,2 @@
+#!/bin/sh
+route add default gw 192.17.239.1

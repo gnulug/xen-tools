@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+#  Configure the new image to be suitable for compiling Debian packages within
+#
+# Steve
+# --
+# http://www.steve.org.uk/
+#
+
+
+prefix=$1
+
+
+
+#
+#  Source our common functions - this will let us install a Debian package.
+#
+if [ -e /usr/share/xen-tools/common.sh ]; then
+    . /usr/share/xen-tools/common.sh
+else
+    echo "Installation problem"
+fi
+
+
+
+
+
+#
+#  Update APT lists.
+#
+chroot ${prefix} /usr/bin/apt-get update
+
+
+#
+#  Install the packages
+#
+chroot ${prefix} /usr/bin/apt-get install -y --no-install-recommends nagios-nrpe-server nagios-plugins-standard nagios-nrpe-plugin
+chroot ${prefix} /bin/rm -rf /etc/nagios-plugins

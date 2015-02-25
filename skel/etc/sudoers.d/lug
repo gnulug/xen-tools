@@ -1,0 +1,3 @@
+Host_Alias	DEV_SYSTEMS=dev
+ALL    islet 	   = (root) ALL
+wqh    DEV_SYSTEMS = (root) NOPASSWD: ALL
