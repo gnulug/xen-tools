@@ -34,7 +34,7 @@ chroot ${prefix} /usr/bin/apt-get update
 #
 #  Install the packages
 #
+installDebianPackage ${prefix} git zsh curl wget vim emacs nano
 installDebianPackage ${prefix} man-db ca-certificates apparmor
 installDebianPackage ${prefix} cowsay htop sysstat iotop dstat collectd nmap tshark tcpdump
-installDebianPackage ${prefix} git zsh curl wget vim emacs nano
 installDebianPackage ${prefix} python-software-properties apt-file
