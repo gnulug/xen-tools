@@ -24,19 +24,36 @@ logMessage Script $0 starting
 
 
 #
-#  Install ssh
+#  Install puppet
 #
-installDebianPackage ${prefix} puppet
 
+chroot ${prefix} /usr/bin/wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb -O /root/
+chroot ${prefix} /usr/bin/dpkg -i puppetlabs-release-precise.deb
+chroot ${prefix} /usr/bin/apt-get update
+chroot ${prefix} /usr/bin/apt-get -y install puppet
 
 #
-#  Make sure sshd isn't running, this will cause our unmounting of the
-# disk image to fail..
+#  Configure puppet
 #
-chroot ${prefix} /etc/init.d/puppet stop
+
 chroot ${prefix} /bin/rm -rf /etc/puppet
+git clone /etc/puppet  ${prefix}/etc
+cp -a /root/.ssh/puppet ${prefix}/root/.ssh/
+
+cat <<EOF > ${prefix}/etc/cron.d/puppet
+# Pull latest puppet configuration
+0 * * * * root  cd /etc/puppet && git pull && ./puppet_apply.sh
+EOF
+
+cat <<EOF1 > ${prefix}/root/.ssh/config
+Host git.gnulug.org
+    User git
+    HostName git.gnulug.org
+    IdentityFile ~/.ssh/puppet
+EOF1
 
 #
 #  Log our finish
 #
+
 logMessage Script $0 finished
