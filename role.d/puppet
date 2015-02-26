@@ -37,6 +37,9 @@ chroot ${prefix} /usr/bin/apt-get -y install puppet
 #
 chroot ${prefix} /bin/rm -rf /etc/puppet
 git clone /etc/puppet  ${prefix}/etc/puppet
+chroot ${prefix} cd /etc/puppet && git remote remove origin
+chroot ${prefix} cd /etc/puppet && git remote add origin git@git.gnulug.org:lug/puppet.git
+chroot ${prefix} cd /etc/puppet && git branch --set-upstream-to=origin/master master
 chroot ${prefix} /bin/mkdir -p /root/.ssh
 chroot ${prefix} /bin/chmod 0700 /root/.ssh
 cp -a /root/.ssh/puppet ${prefix}/root/.ssh
