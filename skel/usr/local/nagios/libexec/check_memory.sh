@@ -58,4 +58,3 @@ else
         echo "OK: $RESULT"
         exit $OK;
 fi
-

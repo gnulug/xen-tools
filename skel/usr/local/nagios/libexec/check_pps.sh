@@ -86,7 +86,8 @@ get_network_data() {
 		txlrint=$(printf "%.0f" $txlinerate)
 
 		# Print the results
-		echo -e "Int: ${INT} | [RX] PPS: ${rxppsnew} | BPS: ${rxbytesnew} | % of LR: $rxlr -- [TX] PPS: ${txppsnew} | BPS: $txbytesnew | % of LR: $txlr"
+		echo -e "Int: ${INT} -- [RX] PPS: ${rxppsnew} - BPS: ${rxbytesnew} - % of LR: $rxlr : ($CRIT)"
+		#echo -e "Int: ${INT} -- [RX] PPS: ${rxppsnew} - BPS: ${rxbytesnew} - % of LR: $rxlr -- [TX] PPS: ${txppsnew} - BPS: $txbytesnew - % of LR: $txlr"
 }
 
 threshold_calculation() {
@@ -106,12 +107,6 @@ INTERVAL=1
 WARN=0
 CRIT=0
 ARGC=$#
-
-# Check for dependency filesystems
-if ! [ -d /sys ] || ! [ -d /proc ]; then
-	echo "$0 requires sysfs and procfs"
-	exit $UNKNOWN
-fi
 
 # Print warning and exit if less than n arguments specified
 argcheck 1

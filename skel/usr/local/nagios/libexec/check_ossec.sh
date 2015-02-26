@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Author: Jon Schipp
-
+# Date: 11-07-2013
 ########
 # Examples:
 
@@ -46,7 +46,7 @@ This script should be run on the OSSEC server.
         -c <int>        Critical threshold for number of inactive agents
         -l              List all agents
         -s <service>    Check status of OSSEC server processes. Use ``-s all'' to check all.
-			To exclude a service(s) e.g pass as comma separated argument i.e. ``-s "execd,maild''
+                        To exclude a service e.g execd pass as argument i.e. ``-s execd''
         -w              Warning threshold for number of inactive agents
 
 Usage: $0 -a "server1,server2,station3"
@@ -100,13 +100,13 @@ do
              ;;
          s)
              SERVER_CHECK=1
-	     EXCLUDE=$(echo $OPTARG | sed 's/,/|/g')
+             EXCLUDE="$OPTARG"
              ;;
          v)
              CHECK_THRESHOLD=1
              VOL="$OPTARG"
              ;;
-         w)
+         w) 
              WARN="$OPTARG"
              ;;
          \?)
@@ -121,8 +121,8 @@ if [ $LIST_AGENTS -eq 1 ]; then
 fi
 
 if [ $SERVER_CHECK -eq 1 ]; then
-
-        $OSSEC_CONTROL status | grep -v -E "$EXCLUDE" | grep "not running"
+        
+        $OSSEC_CONTROL status | grep -v $EXCLUDE | grep "not running"
 
         if [ $? -eq 0 ]; then
                 echo "An OSSEC service is not running!"
@@ -135,7 +135,7 @@ fi
 
 if [ $CHECK_AGENT -eq 1 ]; then
 
-        for host in $(echo $AGENT | sed 's/,/ /g');
+        for host in $(echo $AGENT | sed 's/,/ /g'); 
         do
                 RESULT=$($AGENT_CONTROL -l | grep ${host},)
 
@@ -144,12 +144,12 @@ if [ $CHECK_AGENT -eq 1 ]; then
                 *Disconnected)
                         echo "Agent $host is not connected!"
                         DISCONNECTED=$((DISCONNECTED+1))
-                        ;;
+                        ;; 
                 *Active)
                         echo "Agent $host is connected"
                         CONNECTED=$((CONNECTED+1))
                         ;;
-                *Never*)
+                *Never*) 
                         echo "Agent $host has never connected to the server: $RESULT"
                         NEVERCONNECTED=$((NEVERCONNECTED+1))
                         ;;
@@ -159,11 +159,11 @@ if [ $CHECK_AGENT -eq 1 ]; then
                         ;;
                 esac
         done
-
+        
         if [ $DISCONNECTED -gt 0 ] || [ $NEVERCONNECTED -gt 0 ] || [ $UNKNOWN -gt 0 ]; then
                 echo "-> $DISCONNECTED disconnected agent(s), $NEVERCONNECTED never connected agent(s), and $UNKNOWN agent(s) with unknown status (possible agent name typo?)."
                 exit $CRITICAL
-        else
+        else 
                 echo "All requested ($CONNECTED) agents are connected to the server!"
                 exit $OK
         fi
@@ -171,7 +171,7 @@ fi
 
 
 if [ $CHECK_THRESHOLD -eq 1 ]; then
-
+        
         ACTIVE=$($AGENT_CONTROL -l | grep Active | wc -l)
         INACTIVE=$($AGENT_CONTROL -l | grep Disconnected | wc -l)
         NEVER=$($AGENT_CONTROL -l | grep Never | wc -l)
