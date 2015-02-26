@@ -36,15 +36,16 @@ chroot ${prefix} /usr/bin/apt-get -y install puppet
 #  Configure puppet
 #
 chroot ${prefix} /bin/rm -rf /etc/puppet
-git clone /etc/puppet  ${prefix}/etc
-cp -a /root/.ssh/puppet ${prefix}/root/.ssh/puppet
+git clone /etc/puppet  ${prefix}/etc/puppet
+chroot ${prefix} /bin/mkdir -p /root/.ssh
+chroot ${prefix} /bin/chmod 0700 /root/.ssh
+cp -a /root/.ssh/puppet ${prefix}/root/.ssh
 
 cat <<EOF > ${prefix}/etc/cron.d/puppet
 # Pull latest puppet configuration
 0 * * * * root  cd /etc/puppet && git pull && ./puppet_apply.sh
 EOF
 
-mkdir -p ${prefix}/root/.ssh && chmod 0700 ${prefix}/root/.ssh
 cat <<EOF1 > ${prefix}/root/.ssh/config
 Host git.gnulug.org
     User git
