@@ -36,3 +36,5 @@ chroot ${prefix} /usr/bin/apt-get update
 #
 chroot ${prefix} /usr/bin/apt-get install -y --no-install-recommends nagios-nrpe-server nagios-plugins-standard nagios-nrpe-plugin
 chroot ${prefix} /bin/rm -rf /etc/nagios-plugins
+# VM will fail to unmount if this process isn't stopped
+chroot ${prefix} /usr/sbin/service nagios-nrpe-server stop
