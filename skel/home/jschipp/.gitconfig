@@ -1,0 +1,64 @@
+# Configuration can be per repo (.git/config), per user (~/.gitconfig), or per system # (/etc/gitconfig)
+# git config --global user.name "Jon Schipp"
+# git config --global user.email "jonschipp@gmail.com"
+# git config --global core.editor "vim"
+# git config --global color.ui true
+# git config --global core.excludesfile ~/.gitignore_global
+# git config --global core.editor vim
+# git config --system ... # for /etc/gitconfig changes
+# git config --list
+# git config --global commit.template $HOME/.gitmessage
+# git config --global user.signingkey <gpg-key-id>
+# For binaries, to diff (create ~/.gitattributes w/ e.g. ``*.doc diff-word''
+# git config --global diff.word.textconv strings
+# git config --global diff.exif.textconv exiftool
+# git config --global filter.indent.clean indent
+# git config --global filter.indent.smudge cat
+# git config --global pull.rebase false # auto rebase on git pull
+# git config --global http.sslVerify false
+
+[user]
+  name = Jon Schipp
+  email = jonschipp@gmail.com
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore_global
+  whitespace = trailing-space,space-before-tab,indent-wth-non-tab
+[color]
+  ui = true
+[pull]
+  rebase = true
+[push]
+  default = simple
+  rebase = true
+[sendemail]
+  smtpencryption = tls
+  smtpserver = smtp.gmail.com
+  smtpuser = user@org.com
+  smtppass = password
+  smtpserverport = 587
+[push]
+  default = matching
+[pull]
+  rebase = false
+[commit]
+  template = /Users/jonschipp/.gitmessage
+[diff "word"]
+  textconv = strings
+[diff "exif"]
+  textconv = exiftool
+[alias]
+  deploy  = !git checkout production && git pull && git merge development && git push && git checkout development
+  dd      = !git diff -R development
+  dp      = !git diff -R production
+  cd      = !git checkout development
+  cp      = !git checkout production
+  cc      = !git checkout configs
+  pp      = !git push
+  p       = !git pull
+  b       = !git branch -v
+  s       = !git status
+  ds      = !git diff --staged
+  d       = !git diff
+#[http "git.host.org"] # Works in 1.8+
+#  proxy = socks5://127.0.0.1:50000
