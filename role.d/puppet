@@ -30,7 +30,7 @@ logMessage Script $0 starting
 chroot ${prefix} /usr/bin/wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb -O /root/
 chroot ${prefix} /usr/bin/dpkg -i puppetlabs-release-precise.deb
 chroot ${prefix} /usr/bin/apt-get update
-chroot ${prefix} /usr/bin/apt-get -y install puppet
+installDebianPackage puppet
 
 #
 #  Configure puppet
