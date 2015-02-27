@@ -36,25 +36,28 @@ chroot ${prefix} /usr/bin/apt-get -y install puppet
 #  Configure puppet
 #
 chroot ${prefix} /bin/rm -rf /etc/puppet
-git clone /etc/puppet  ${prefix}/etc/puppet
-chroot ${prefix} cd /etc/puppet && git remote remove origin
-chroot ${prefix} cd /etc/puppet && git remote add origin git@git.gnulug.org:lug/puppet.git
-chroot ${prefix} cd /etc/puppet && git branch --set-upstream-to=origin/master master
 chroot ${prefix} /bin/mkdir -p /root/.ssh
 chroot ${prefix} /bin/chmod 0700 /root/.ssh
 cp -a /root/.ssh/puppet ${prefix}/root/.ssh
 
-cat <<EOF > ${prefix}/etc/cron.d/puppet
+git clone /etc/puppet  ${prefix}/etc/puppet
+chroot ${prefix} cd /etc/puppet && git remote remove origin
+chroot ${prefix} cd /etc/puppet && git remote add origin git@git.gnulug.org:lug/puppet.git
+chroot ${prefix} cd /etc/puppet && git branch --set-upstream-to=origin/master master
+
+cat <<EOF1 > ${prefix}/etc/cron.d/puppet
 # Pull latest puppet configuration
 0 * * * * root  cd /etc/puppet && git pull && ./puppet_apply.sh
-EOF
+EOF1
 
-cat <<EOF1 > ${prefix}/root/.ssh/config
+cat <<EOF2 > ${prefix}/root/.ssh/config
 Host git.gnulug.org
     User git
     HostName git.gnulug.org
     IdentityFile ~/.ssh/puppet
-EOF1
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+EOF2
 
 #
 #  Log our finish
