@@ -49,11 +49,7 @@ Host git.gnulug.org
     UserKnownHostsFile=/dev/null
 EOF2
 
-git clone /etc/puppet  ${prefix}/etc/puppet
-chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git remote remove origin'
-chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git remote add origin git@git.gnulug.org:lug/puppet.git'
-chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git pull git@git.gnulug.org:lug/puppet.git master'
-chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git branch --set-upstream-to=origin/master master'
+chroot ${prefix} /usr/bin/git clone git@git.gnulug.org:lug/puppet.git /etc/puppet
 
 cat <<EOF1 > ${prefix}/etc/cron.d/puppet
 # Pull latest puppet configuration
