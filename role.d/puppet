@@ -27,7 +27,7 @@ logMessage Script $0 starting
 #  Install puppet
 #
 
-chroot ${prefix} /usr/bin/wget --no-check-certificate https://apt.puppetlabs.com/puppetlabs-release-trusty.deb -O /root/puppetlabs-release-trusty.deb
+cp /root/puppetlabs-release-trusty.deb ${prefix}/root
 chroot ${prefix} /usr/bin/dpkg -i /root/puppetlabs-release-trusty.deb
 chroot ${prefix} /usr/bin/apt-get update
 chroot ${prefix} /usr/bin/apt-get -y install puppet
@@ -40,16 +40,6 @@ chroot ${prefix} /bin/mkdir -p /root/.ssh
 chroot ${prefix} /bin/chmod 0700 /root/.ssh
 cp -a /root/.ssh/puppet ${prefix}/root/.ssh
 
-git clone /etc/puppet  ${prefix}/etc/puppet
-chroot ${prefix} cd /etc/puppet && git remote remove origin
-chroot ${prefix} cd /etc/puppet && git remote add origin git@git.gnulug.org:lug/puppet.git
-chroot ${prefix} cd /etc/puppet && git branch --set-upstream-to=origin/master master
-
-cat <<EOF1 > ${prefix}/etc/cron.d/puppet
-# Pull latest puppet configuration
-0 * * * * root  cd /etc/puppet && git pull && ./puppet_apply.sh
-EOF1
-
 cat <<EOF2 > ${prefix}/root/.ssh/config
 Host git.gnulug.org
     User git
@@ -58,6 +48,17 @@ Host git.gnulug.org
     StrictHostKeyChecking no
     UserKnownHostsFile=/dev/null
 EOF2
+
+git clone /etc/puppet  ${prefix}/etc/puppet
+chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git remote remove origin'
+chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git remote add origin git@git.gnulug.org:lug/puppet.git'
+chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git pull git@git.gnulug.org:lug/puppet.git master'
+chroot ${prefix} /bin/bash -c 'cd /etc/puppet && git branch --set-upstream-to=origin/master master'
+
+cat <<EOF1 > ${prefix}/etc/cron.d/puppet
+# Pull latest puppet configuration
+0 * * * * root  cd /etc/puppet && git pull && ./puppet_apply.sh
+EOF1
 
 #
 #  Log our finish
