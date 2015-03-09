@@ -27,6 +27,7 @@ logMessage Script $0 starting
 #  Configure apt-cacher repository
 #
 
+cp /etc/apt/sources.list.d/lug.list ${prefix}/etc/apt/sources.list.d/lug.list
 cp /etc/apt/apt.conf.d/01proxy ${prefix}/etc/apt/apt.conf.d/01proxy
 
 #
