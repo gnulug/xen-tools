@@ -1,15 +1,20 @@
-127.0.0.1 localhost
+127.0.0.1       localhost
 
-192.17.239.48    hammy.gnulug.org     hammy
-192.17.239.11    syslog.gnulug.org    syslog
-192.17.239.12    dev.gnulug.org       dev
-192.17.239.13    islet.gnulug.org     islet
-192.17.239.14    pxe.gnulug.org       pxe
-192.17.239.15    graphs.gnulug.org    collectd
-192.17.239.16    nagios.gnulug.org    nagios
-192.17.239.17    gitlabs.gnulug.org   gitlabs
-192.17.239.18    proxy.gnulug.org     proxy
-192.17.239.35    test.gnulug.org      test
+192.17.239.48    hammy.gnulug.org       hammy
+192.17.239.11    syslog.gnulug.org      syslog
+192.17.239.12    dev.gnulug.org         dev
+192.17.239.13    islet.gnulug.org       islet
+192.17.239.14    pxe.gnulug.org         pxe
+192.17.239.15    graphs.gnulug.org      collectd
+192.17.239.16    nagios.gnulug.org      nagios
+192.17.239.17    gitlab.gnulug.org      gitlab
+192.17.239.18    proxy.gnulug.org       proxy
+192.17.239.19    repo.gnulug.org        repo
+192.17.239.20    ftp.gnulug.org         test
+192.17.239.21    docker1.gnulug.org     docker1
+192.17.239.22    docker2.gnulug.org     docker2
+192.17.239.23    www.gnulug.org         www
+192.17.239.35    test.gnulug.org        test
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback
