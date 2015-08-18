@@ -14,6 +14,8 @@
 192.17.239.21    docker1.gnulug.org     docker1
 192.17.239.22    docker2.gnulug.org     docker2
 192.17.239.23    www.gnulug.org         www
+192.17.239.24    islet1.gnulug.org      islet1
+192.17.239.25    islet2.gnulug.org      islet2
 192.17.239.35    test.gnulug.org        test
 
 # The following lines are desirable for IPv6 capable hosts
